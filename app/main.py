@@ -1,0 +1,16 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from .routers.rules.router import router as rules_router
+
+
+app = FastAPI(title="API Limiter", version="0.1")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # TODO: replace with origins from config
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(rules_router, tags=["Rules"])

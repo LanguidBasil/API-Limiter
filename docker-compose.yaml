@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  redis:
+    image: redis:7.0.11-alpine3.18
+    volumes:
+      - redis_db:/var/lib/postgresql/data
+    ports:
+      - "6379:6379" # TODO: remove for security
+    networks:
+      - main
+  backend:
+    build: ./app
+    depends_on:
+      - redis
+    env_file:
+      - ./.env
+    ports:
+      - "80:80"
+    networks:
+      - main
+
+volumes:
+  redis_db:
+networks:
+  main:
+
