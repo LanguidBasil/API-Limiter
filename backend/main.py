@@ -8,7 +8,7 @@ from .routers.validate.router import router as validate_router
 app = FastAPI(title="API Limiter", version="0.1")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # TODO: replace with origins from config
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -8,11 +8,9 @@ services:
     networks:
       - main
   backend:
-    build: ./app
+    build: ./backend
     depends_on:
       - redis
-    env_file:
-      - ./.env
     ports:
       - "80:80"
     networks:
