@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from .schemas import CreateRules_Body
-from ..dependencies import method_to_upper_if_not_none
+from ..dependencies import method_to_upper, method_to_upper_if_not_none
 from ...database import Rule, rule_storage
 
 
@@ -30,5 +30,5 @@ def create_rules(rules_body: CreateRules_Body):
     return rules
 
 @router.delete("/", response_model=bool)
-def delete_rule(url: str = None, method = Depends(method_to_upper_if_not_none)):
+def delete_rule(url: str, method = Depends(method_to_upper)):
     return rule_storage.delete(url, method)

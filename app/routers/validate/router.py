@@ -3,7 +3,7 @@ from datetime import datetime
 from fastapi import APIRouter, Depends
 
 from .schemas import Validate_Response
-from ..dependencies import method_to_upper_if_not_none
+from ..dependencies import method_to_upper
 from ...database import bucket_storage, Bucket, rule_storage
 
 
@@ -11,7 +11,7 @@ router = APIRouter(prefix="/validate")
 
 
 @router.post("/", response_model=Validate_Response)
-def validate(ip_address: str, url: str, method: str = Depends(method_to_upper_if_not_none)):
+def validate(ip_address: str, url: str, method: str = Depends(method_to_upper)):
     
     rule = rule_storage.get(url, method)[0]
     if not rule:
