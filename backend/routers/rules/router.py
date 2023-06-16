@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from .schemas import CreateRules_Body
-from ..dependencies import method_to_upper, method_to_upper_if_not_none
+from .schemas import GetRules_Body, CreateRules_Body, DeleteRules_Body
 from ...database import Rule, rule_storage
 
 
@@ -9,8 +8,8 @@ router = APIRouter(prefix="/rules")
 
 
 @router.get("/", response_model=list[Rule])
-def get_rules(url: str = None, method = Depends(method_to_upper_if_not_none)):
-    return rule_storage.get(url, method)
+def get_rules(body: GetRules_Body = Depends()):
+    return rule_storage.get(body.url, body.method)
 
 @router.post("/", response_model=list[Rule])
 def create_rules(rules_body: CreateRules_Body):
@@ -30,5 +29,5 @@ def create_rules(rules_body: CreateRules_Body):
     return rules
 
 @router.delete("/", response_model=bool)
-def delete_rule(url: str, method = Depends(method_to_upper)):
-    return rule_storage.delete(url, method)
+def delete_rule(body: DeleteRules_Body = Depends()):
+    return rule_storage.delete(body.url, body.method)

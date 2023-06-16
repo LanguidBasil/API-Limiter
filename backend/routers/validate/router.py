@@ -2,8 +2,7 @@ from datetime import datetime
 
 from fastapi import APIRouter, Depends
 
-from .schemas import Validate_Response
-from ..dependencies import method_to_upper
+from .schemas import Validate_Body, Validate_Response
 from ...database import bucket_storage, Bucket, rule_storage
 
 
@@ -11,10 +10,10 @@ router = APIRouter(prefix="/validate")
 
 
 @router.post("/", response_model=Validate_Response)
-def validate(ip_address: str, url: str, method: str = Depends(method_to_upper)):
-    
-    rule = rule_storage.get(url, method)[0]
-    if not rule:
+def validate(body: Validate_Body = Depends()):
+        
+    rules = rule_storage.get(body.url, body.method)
+    if not rules or not (rule := rules[0]):
         return Validate_Response(
             is_allowed=True,
             requests_left=None,
@@ -23,9 +22,9 @@ def validate(ip_address: str, url: str, method: str = Depends(method_to_upper)):
     
     
     bucket = Bucket(
-        url=url,
-        method=method,
-        ip_address=ip_address,
+        url=body.url,
+        method=body.method,
+        ip_address=body.ip_address,
         
         requests_left=None,
         first_request_timestamp=None,
