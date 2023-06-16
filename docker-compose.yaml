@@ -5,8 +5,6 @@ services:
     image: redis:7.0.11-alpine3.18
     volumes:
       - redis_db:/var/lib/postgresql/data
-    ports:
-      - "6379:6379" # TODO: remove for security
     networks:
       - main
   backend:
