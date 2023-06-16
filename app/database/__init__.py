@@ -9,13 +9,13 @@ connection = Redis(
     decode_responses=True,
 )
 
-ruleStorage = RuleStorage(connection)
-bucketStorage = BucketStorage(connection)
+rule_storage = RuleStorage(connection)
+bucket_storage = BucketStorage(connection)
 
 __all__ = [
     "Rule",
-    "ruleStorage",
-    "bucketStorage",
+    "rule_storage",
+    "bucket_storage",
     "Bucket",
 ]
 

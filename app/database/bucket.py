@@ -1,15 +1,15 @@
 from dataclasses import dataclass
 from redis import Redis
 
-
+    
 @dataclass(slots=True)
 class Bucket:
     url: str
     method: str
     ip_address: str
     
-    requests_left: int
-    first_request_timestamp: float
+    requests_left: int | None
+    first_request_timestamp: float | None
 
 class BucketStorage:
     __connection: Redis
@@ -17,9 +17,36 @@ class BucketStorage:
     def __init__(self, connection: Redis) -> None:
         self.__connection = connection
     
+    def save(self, bucket: Bucket) -> None:
+        if bucket.requests_left is None:
+            raise ValueError(
+                f"requests_left is empty on bucket {bucket}, which is not allowed on saving"
+            )
+        if bucket.first_request_timestamp is None:
+            raise ValueError(
+                f"first_request_timestamp is empty on bucket {bucket}, which is not allowed on saving"
+            )
+        
+        self.__connection.hset(
+            f"bucket#{bucket.url}#{bucket.method}#{bucket.ip_address}",
+            mapping={
+                "requests_left": bucket.requests_left,
+                "first_request_timestamp": bucket.first_request_timestamp,
+            },
+        )
     
-    def save(bucket: Bucket) -> None:
-        pass
-    
-    def get(url: str, method: str, ip_address) -> Bucket | None:
-        pass
+    def get(self, bucket: Bucket) -> Bucket | None:
+        redis_bucket = self.__connection.hgetall(
+            f"bucket#{bucket.url}#{bucket.method}#{bucket.ip_address}"
+        )
+        if not redis_bucket:
+            return None
+        
+        return Bucket(
+            url=bucket.url,
+            method=bucket.method,
+            ip_address=bucket.ip_address,
+            
+            requests_left=int(redis_bucket["requests_left"]),
+            first_request_timestamp=float(redis_bucket["first_request_timestamp"]),
+        )
