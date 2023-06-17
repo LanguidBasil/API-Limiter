@@ -1,0 +1,5 @@
+FROM nginx:1.25.1-alpine3.17-slim
+
+COPY . /usr/share/nginx/html/
+
+CMD ["nginx", "-g", "daemon off;"]
