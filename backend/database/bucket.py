@@ -28,7 +28,7 @@ class BucketStorage:
             )
         
         self.__connection.hset(
-            f"bucket#{bucket.url}#{bucket.method}#{bucket.ip_address}",
+            f"buckets#{bucket.url}#{bucket.method}#{bucket.ip_address}",
             mapping={
                 "requests_left": bucket.requests_left,
                 "first_request_timestamp": bucket.first_request_timestamp,
@@ -37,7 +37,7 @@ class BucketStorage:
     
     def get(self, bucket: Bucket) -> Bucket | None:
         redis_bucket = self.__connection.hgetall(
-            f"bucket#{bucket.url}#{bucket.method}#{bucket.ip_address}"
+            f"buckets#{bucket.url}#{bucket.method}#{bucket.ip_address}"
         )
         if not redis_bucket:
             return None
