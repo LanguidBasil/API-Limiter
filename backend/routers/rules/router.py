@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from .schemas import GetRules_Body, CreateRules_Body, DeleteRules_Body
-from ..utils import make_dependable
+from ..dependencies import make_dependable
 from ...database import Rule, rule_storage
 
 

@@ -3,7 +3,7 @@ from datetime import datetime
 from fastapi import APIRouter, Depends
 
 from .schemas import Validate_Body, Validate_Response
-from ..utils import make_dependable
+from ..dependencies import make_dependable
 from ...database import bucket_storage, Bucket, rule_storage
 
 
