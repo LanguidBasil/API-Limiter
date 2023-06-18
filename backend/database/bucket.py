@@ -1,15 +1,17 @@
 from dataclasses import dataclass
 from redis import Redis
 
+from ..utils import HTTPMethod
+
     
 @dataclass(slots=True)
 class Bucket:
     url: str
-    method: str
+    method: HTTPMethod
     ip_address: str
     
-    requests_left: int | None
-    first_request_timestamp: float | None
+    requests_left: int | None = None
+    first_request_timestamp: float | None = None
 
 class BucketStorage:
     __connection: Redis
@@ -28,7 +30,7 @@ class BucketStorage:
             )
         
         self.__connection.hset(
-            f"buckets#{bucket.url}#{bucket.method}#{bucket.ip_address}",
+            f"buckets#{bucket.url}#{bucket.method.value}#{bucket.ip_address}",
             mapping={
                 "requests_left": bucket.requests_left,
                 "first_request_timestamp": bucket.first_request_timestamp,
@@ -37,7 +39,7 @@ class BucketStorage:
     
     def get(self, bucket: Bucket) -> Bucket | None:
         redis_bucket = self.__connection.hgetall(
-            f"buckets#{bucket.url}#{bucket.method}#{bucket.ip_address}"
+            f"buckets#{bucket.url}#{bucket.method.value}#{bucket.ip_address}"
         )
         if not redis_bucket:
             return None

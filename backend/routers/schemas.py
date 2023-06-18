@@ -1,12 +1,8 @@
-from pydantic import BaseModel, HttpUrl, IPvAnyAddress, validator
-from .dependencies import validate_method
+from pydantic import BaseModel, HttpUrl, IPvAnyAddress
+from ..utils import HTTPMethod
 
 
 class Bucket_Body(BaseModel):
     url: HttpUrl
-    method: str
+    method: HTTPMethod
     ip_address: IPvAnyAddress
-
-    @validator("method")
-    def v_method(cls, v: str) -> str:
-        return validate_method(v)
