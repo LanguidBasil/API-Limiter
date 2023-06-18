@@ -2,7 +2,9 @@ from datetime import datetime
 
 from fastapi import APIRouter, Depends
 
-from .schemas import Validate_Body, Validate_Response
+
+from .schemas import Validate_Response
+from ..schemas import Bucket_Body
 from ..dependencies import make_dependable
 from ...database import bucket_storage, Bucket, rule_storage
 
@@ -11,7 +13,7 @@ router = APIRouter(prefix="/validate")
 
 
 @router.post("/", response_model=Validate_Response)
-def validate(body: Validate_Body = Depends(make_dependable(Validate_Body))):
+def validate(body: Bucket_Body = Depends(make_dependable(Bucket_Body))):
         
     rules = rule_storage.get(body.url, body.method)
     if not rules or not (rule := rules[0]):
