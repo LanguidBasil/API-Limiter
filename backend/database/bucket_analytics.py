@@ -34,21 +34,6 @@ class BucketAnalyticsStorage:
             ip_address: str = None
         ) -> list[BucketAnalytics]:
         
-        if url is not None and method is not None and ip_address is None:
-            redis_bucket = self.__connection.hgetall(
-                f"bucketsanalytics#{url}#{method.value}#{ip_address}#*"
-            )
-            if not redis_bucket:
-                return []
-            
-            return [BucketAnalytics(
-                url=url,
-                method=method,
-                ip_address=ip_address,
-                was_allowed=bool(redis_bucket["was_allowed"]),
-                timestamp=float(redis_bucket["timestamp"]),
-            )]
-        
         pattern = "bucketsanalytics"
         pattern += f"#{url if url is not None else '*'}"
         pattern += f"#{method.value if method is not None else '*'}"
@@ -61,14 +46,14 @@ class BucketAnalyticsStorage:
             redis_bucket = self.__connection.hgetall(key)
             
             key = key.split("#")
-            url, method, ip_address = key[1], HTTPMethod(key[2]), key[3]
+            url, method, ip_address, timestamp = key[1], HTTPMethod(key[2]), key[3], float(key[4])
             
             buckets.append(BucketAnalytics(
                 url=url,
                 method=method,
                 ip_address=ip_address,
+                timestamp=timestamp,
                 was_allowed=bool(redis_bucket["was_allowed"]),
-                timestamp=float(redis_bucket["timestamp"]),
             ))
         
         return buckets
