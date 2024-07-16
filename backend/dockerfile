@@ -1,7 +1,8 @@
 
-FROM python:3.11.4-alpine3.18
+FROM python:3.12.4-alpine3.20
 
-ADD ./requirements.txt /requirements.txt
+COPY ./requirements.txt /requirements.txt
+RUN python -m pip install --upgrade pip
 RUN pip install --upgrade -r /requirements.txt
 
 COPY . /app
