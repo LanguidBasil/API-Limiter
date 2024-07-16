@@ -22,4 +22,3 @@ __all__ = [
     "BucketAnalytics",
     "bucket_analytics_storage",
 ]
-

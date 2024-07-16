@@ -10,4 +10,3 @@ class HTTPMethod(str, Enum):
     POST = "POST"
     PUT = "PUT"
     TRACE = "TRACE"
-

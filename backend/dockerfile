@@ -1,3 +1,4 @@
+
 FROM python:3.11.4-alpine3.18
 
 ADD ./requirements.txt /requirements.txt
@@ -6,5 +7,3 @@ RUN pip install --upgrade -r /requirements.txt
 COPY . /app
 
 CMD [ "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80" ]
-
-
