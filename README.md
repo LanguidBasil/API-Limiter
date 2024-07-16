@@ -1,6 +1,3 @@
-FastAPI приложение для ограничения запросов к ресурсам
-
-FastAPI app for limiting access to resources based on ip
 
 # Features
 
