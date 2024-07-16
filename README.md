@@ -57,7 +57,7 @@ curl -X 'GET' \
 # Launching
 
 1. `git clone`
-2. `cp .env.sample .env` and edit
+2. `cp .env.sample .env` and edit if necessary
 3. `docker compose up`
 4. Read docs at `localhost:8080`
 
