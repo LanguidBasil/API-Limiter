@@ -8,14 +8,19 @@ services:
     networks:
       - main
   backend:
+    container_name: backend
     build: ./backend
+    env_file:
+      - .env
     depends_on:
       - redis
+    # TODO: hide backend
     ports:
-      - "80:80"
+      - "8000:80"
     networks:
       - main
   frontend:
+    container_name: frontend
     build: ./frontend
     depends_on:
       - backend
@@ -28,4 +33,3 @@ volumes:
   redis_db:
 networks:
   main:
-

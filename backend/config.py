@@ -1,0 +1,4 @@
+import os
+
+
+REDIS_CONNECTION_STRING = os.environ["REDIS_CONNECTION_STRING"]
