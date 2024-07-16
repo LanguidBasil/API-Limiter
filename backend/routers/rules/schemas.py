@@ -4,8 +4,8 @@ from ...utils import HTTPMethod
 
 
 class GetRules_Body(BaseModel):
-    url: HttpUrl | None
-    method: HTTPMethod | None
+    url: HttpUrl | None = None
+    method: HTTPMethod | None = None
 
 
 class CreateRules_Body(BaseModel):
