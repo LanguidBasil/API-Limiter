@@ -21,7 +21,7 @@ def __validate__return_and_save_bucket(body: Bucket_Body, response: Validate_Res
             url=body.url,
             method=body.method,
             ip_address=body.ip_address,
-            was_allowed=str(response.is_allowed),
+            was_allowed=response.is_allowed,
             timestamp=datetime.now().timestamp(),
         )
     )

@@ -24,28 +24,30 @@ class BucketAnalyticsStorage:
         self.__connection.hset(
             f"bucketsanalytics#{bucket.url}#{bucket.method.value}#{bucket.ip_address}#{bucket.timestamp}",
             mapping={
-                "was_allowed": bucket.was_allowed,
+                "was_allowed": int(bucket.was_allowed),
             },
         )
 
     def get(self, url: str = None, method: HTTPMethod = None, ip_address: str = None) -> list[BucketAnalytics]:
-        pattern = "bucketsanalytics"
-        pattern += f"#{url if url is not None else '*'}"
-        pattern += f"#{method.value if method is not None else '*'}"
-        pattern += f"#{ip_address if ip_address is not None else '*'}"
-        pattern += "#*"
+        pattern = (
+            "bucketsanalytics"
+            f"#{url if url is not None else '*'}"
+            f"#{method.value if method is not None else '*'}"
+            f"#{ip_address if ip_address is not None else '*'}"
+            "#*"
+        )
         keys: list[str] = self.__connection.keys(pattern)
 
         buckets = []
         for key in keys:
             redis_bucket = self.__connection.hgetall(key)
 
-            key = key.split("#")
+            keys = key.split("#")
             url, method, ip_address, timestamp = (
-                key[1],
-                HTTPMethod(key[2]),
-                key[3],
-                float(key[4]),
+                keys[1],
+                HTTPMethod(keys[2]),
+                keys[3],
+                float(keys[4]),
             )
 
             buckets.append(
@@ -54,7 +56,7 @@ class BucketAnalyticsStorage:
                     method=method,
                     ip_address=ip_address,
                     timestamp=timestamp,
-                    was_allowed=bool(redis_bucket["was_allowed"]),
+                    was_allowed=redis_bucket["was_allowed"] == "1",
                 )
             )
 
