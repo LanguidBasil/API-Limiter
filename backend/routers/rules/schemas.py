@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator, HttpUrl
+from pydantic import BaseModel, validator, HttpUrl, Field
 
 from ...utils import HTTPMethod
 
@@ -12,7 +12,7 @@ class CreateRules_Body(BaseModel):
     urls: list[HttpUrl]
     methods: list[HTTPMethod]
     requests: int
-    refresh_rate: int
+    refresh_rate: int = Field(description="defined in seconds")
 
     @validator("urls", "methods")
     def v_lists_cannot_be_empty(cls, v: list[str]) -> list[str]:

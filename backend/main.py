@@ -6,7 +6,30 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-app_v1 = FastAPI(title="API Limiter", version="1.0", docs_url=None, redoc_url=None)
+app_v1 = FastAPI(
+    title="API Limiter",
+    version="1.0",
+    docs_url=None,
+    redoc_url=None,
+    openapi_tags=[
+        {
+            "name": "bucket_analytics",
+            "description": "Read analytics on bucket's requests",
+        },
+        {
+            "name": "buckets",
+            "description": "Operations on specific bucket - combination of url, method, ip_address",
+        },
+        {
+            "name": "rules",
+            "description": "Operations on existing rules - combination of url, method, refresh_rate, requests",
+        },
+        {
+            "name": "validate",
+            "description": "Validate and update bucket",
+        },
+    ],
+)
 app_v1.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

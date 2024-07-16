@@ -31,7 +31,7 @@ def __validate__return_and_save_bucket(body: Bucket_Body, response: Validate_Res
 router = APIRouter(prefix="/validate")
 
 
-@router.post("/", response_model=Validate_Response)
+@router.post("/", response_model=Validate_Response, description="If rule is not found then response `is_allowed`")
 def validate(body: Bucket_Body = Depends(make_dependable(Bucket_Body))):
     rules = rule_storage.get(body.url, body.method)
     if not rules or not (rule := rules[0]):
