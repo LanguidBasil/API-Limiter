@@ -1,6 +1,10 @@
 
 # Features
 
+Swagger documentation:
+
+![swagger documentaion](README%20assets/swagger%20documentaion.png)
+
 Rule creation:
 
 ```bash
@@ -49,10 +53,6 @@ curl -X 'GET' \
   -H 'accept: application/json'
 [{"url":"https://example.com/","method":"GET","ip_address":"0.0.0.0","timestamp":1721105457.358816,"was_allowed":true}]
 ```
-
-Swagger documentation:
-
-![swagger documentaion](README%20assets/swagger%20documentaion.png)
 
 # Launching
 
