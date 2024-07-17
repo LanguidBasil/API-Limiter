@@ -54,6 +54,8 @@ curl -X 'GET' \
 [{"url":"https://example.com/","method":"GET","ip_address":"0.0.0.0","timestamp":1721105457.358816,"was_allowed":true}]
 ```
 
+Detailed description of project you can read in 'Макунев Евгений, пиуп. Распределенные системы. Курсовой проект' file
+
 # Launching
 
 1. `git clone`
